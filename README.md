@@ -3,12 +3,16 @@
 ## build
 ```sh
 cargo run
-   Compiling ic_rs v0.1.0 (/home/peter/ic_rs)
-    Finished dev [unoptimized + debuginfo] target(s) in 1.69s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.09s
      Running `target/debug/ic_rs`
+type A = record { a : nat16; b : nat16 };
 service : {
+  add : (nat16, nat16) -> (A) query;
   greeting : (text, nat16) -> (text) query;
-  sum : (nat16, nat16, nat16, nat16) -> (nat16, nat16) query;
+  sum : (nat16, nat16) -> (nat16, nat16) query;
+  sum2 : (nat16, nat16) -> (nat16) query;
+  sum3 : (nat16, nat16) -> (record { nat16; nat16 }) query;
+}
 
 cargo run > ic_rs.did
     Finished dev [unoptimized + debuginfo] target(s) in 0.09s
@@ -17,6 +21,15 @@ cargo run > ic_rs.did
 cargo build --release --target wasm32-unknown-unknown
    Compiling ic_rs v0.1.0 (/home/peter/ic_rs)
     Finished release [optimized] target(s) in 0.71s
+
+ic-cdk-optimizer target/wasm32-unknown-unknown/release/ic_rs.wasm -o ./ic_rs_opt.wasm
+Original:          1.79 MiB
+Stripping Unused Data Segments...
+    Size:          311.13 KiB (83.0% smaller)
+Execute a binaryen optimization pass on your WASM....
+    Size:          280.72 KiB (9.8% smaller)
+
+Final Size: 280.72 KiB (84.7% smaller)
 ```
 
 ## install
