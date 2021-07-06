@@ -1,0 +1,8 @@
+type A = record { a : nat16; b : nat16 };
+service : {
+  add : (nat16, nat16) -> (A) query;
+  greeting : (text, nat16) -> (text) query;
+  sum : (nat16, nat16) -> (nat16, nat16) query;
+  sum2 : (nat16, nat16) -> (nat16) query;
+  sum3 : (nat16, nat16) -> (record { nat16; nat16 }) query;
+}
